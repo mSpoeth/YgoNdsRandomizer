@@ -18,12 +18,18 @@ public class RomUnwrapper {
 
     public RomUnwrapper(String ndsToolPath) {
         boolean isWindows = System.getProperty("os.name").startsWith("Windows");
-
         if (isWindows) {
             ndsToolPath += ".exe";
         }
 
-        this.ndsTool = new File(ndsToolPath);
+        File ndsToolFile = new File(ndsToolPath);
+
+        if (!ndsToolFile.exists()) {
+            ndsToolFile = FileTools.extractResourceToTempFolder("executables", ndsToolFile.getName());
+        }
+
+
+        this.ndsTool = ndsToolFile;
     }
 
     public File unwrapRom(File rom) throws IOException, InterruptedException {

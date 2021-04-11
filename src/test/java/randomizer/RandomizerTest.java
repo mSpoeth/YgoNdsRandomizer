@@ -1,5 +1,6 @@
 package randomizer;
 
+import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,7 +34,13 @@ public class RandomizerTest {
             Assert.assertEquals(NoChange, settings.getStructureDeckSetting());
 
             String testSaveBytes = new String(Files.readAllBytes(savedSettings.toPath()), UTF_8);
-            Assert.assertEquals(testSaveBytes, settings.toJSON());
+
+
+            settings = YgoRandomizerSettings.getFromJSON(settings.toJSON());
+            Assert.assertNotNull(settings);
+            Assert.assertEquals("testSeed", settings.getSeed());
+            Assert.assertEquals(RandomizeWithRarity, settings.getPackSetting());
+            Assert.assertEquals(NoChange, settings.getStructureDeckSetting());
 
             try {
                 scrambler.writeToFile(null);

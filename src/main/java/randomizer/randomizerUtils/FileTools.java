@@ -1,7 +1,10 @@
 package randomizer.randomizerUtils;
 
+import ui.Main;
+
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -128,5 +131,24 @@ public class FileTools {
      */
     public static String getBytesToString(byte[] bytes) {
         return new String(bytes, charset);
+    }
+
+    public static File extractResourceToTempFolder(String pathToFile, String fileName) {
+        try {
+            File tempFolder = Files.createTempDirectory("ndsToolFolder").toFile();
+
+            File file = new File(tempFolder.getPath() + "/" + fileName);
+
+            if (!file.exists()) {
+                InputStream link = (Main.class.getResourceAsStream("/"  + pathToFile + "/" + fileName));
+                Files.copy(link, file.getAbsoluteFile().toPath());
+            }
+
+            return file;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }

@@ -12,18 +12,13 @@ apply plugin: 'com.github.johnrengelman.shadow'
 
 shadowJar {
     manifest {
-        attributes 'Main-Class': 'ui.Main'
+        attributes'Main-Class': 'ui.Main'
     }
 }
 
-apply plugin: 'java-library'
-
 jar {
     manifest {
-        attributes(
-                'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
-                'Main-Class': 'ui.Main'
-        )
+        attributes'Main-Class': 'ui.Main'
     }
 
     // You can reference any part of the dependency configurations,
