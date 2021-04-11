@@ -1,0 +1,39 @@
+.check-box:selected > .box {
+    /* background color for selected checkbox */
+    -fx-border-width: 1.5;
+    -fx-background-radius: 6;
+    -fx-border-radius: 4;
+    -fx-border-color: #578200;
+}
+
+.check-box > .box {
+    /* background color of unselected checkbox */
+    -fx-background-insets: 0;
+
+    -fx-border-width: 1.5;
+    -fx-background-radius: 6;
+    -fx-border-radius: 4;
+    -fx-border-color: #700c0c;
+}
+
+.check-box:selected > .box > .mark {
+    /* modify mark color */
+    -fx-background-color: #578200;
+}
+
+.text-field {
+    -fx-background-color: Gray;
+}
+
+.text-field > {
+    -fx-background-color: Gray;
+    -fx-prompt-text-fill: black;
+}
+
+.button {
+    -fx-background-color: #780101;
+}
+
+.choice-box {
+    -fx-background-color:  Gray;
+}
