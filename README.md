@@ -33,5 +33,7 @@ The current options of randomization allow to:
 This project is open-source and most classes can be used as tools and adapted, for example,
 to modify other aspects of the games or to be able to randomise the other Yugioh games on the system.
 
+Feel free to use the code however you want!
+
 
 #### This project is licensed under the terms of the MIT license.
