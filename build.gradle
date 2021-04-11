@@ -1,11 +1,39 @@
 plugins {
     id 'java'
+    id "com.github.johnrengelman.shadow" version "5.2.0"
 }
 
 group 'YGONDSRandomizer'
-version '0.1'
+version '1.0'
 
 sourceCompatibility = 1.8
+
+apply plugin: 'com.github.johnrengelman.shadow'
+
+shadowJar {
+    manifest {
+        attributes 'Main-Class': 'ui.Main'
+    }
+}
+
+apply plugin: 'java-library'
+
+jar {
+    manifest {
+        attributes(
+                'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+                'Main-Class': 'ui.Main'
+        )
+    }
+
+    // You can reference any part of the dependency configurations,
+    // and you can have as many from statements as you need
+    from configurations.compile
+    // I just copied them into the top of the jar, so it looks like the eclipse exported
+    // runnable jar, but you could designate a lib directory, and reference that in the
+    // classpath as "lib/$it.name" instead of it.getName()
+    into ''
+}
 
 repositories {
     mavenCentral()
@@ -14,6 +42,5 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 
-    implementation group: 'org.json', name: 'json', version: '20090211'
-
+    implementation 'org.json:json:20210307'
 }
