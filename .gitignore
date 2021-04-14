@@ -1,6 +1,8 @@
 *.nds
 *.sav
-*.mc
+*.mch
+
+TempTest.java
 
 .idea/
 .gradle/

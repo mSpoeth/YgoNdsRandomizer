@@ -9,10 +9,20 @@ import java.util.Random;
  */
 public abstract class Randomizer {
 
+    public enum GameEdition {
+        Undefined,
+        Wc2008,
+        Wc2009,
+        Wc2010,
+        Wc2011
+    }
+
     /**
      * The Settings that determine how randomization is done
      */
     protected final YgoRandomizerSettings settings;
+
+    private GameEdition gameEdition;
 
     /**
      * The Random for consistent seeds
@@ -23,9 +33,11 @@ public abstract class Randomizer {
      * Instantiates a new Randomizer.
      *
      * @param settings the settings
+     * @param gameEdition the edition enum of the game that will be randomized;
      */
-    Randomizer(YgoRandomizerSettings settings) {
+    Randomizer(YgoRandomizerSettings settings, GameEdition gameEdition) {
         this.settings = settings;
+        this.gameEdition = gameEdition;
         random = new Random(settings.getSeedAsLong());
     }
 
@@ -33,9 +45,30 @@ public abstract class Randomizer {
      * Randomize a file according to the settings.
      *
      * @param toBeRandomized the file to randomize
-     * @return the randomized file
      * @throws IOException the io exception
      */
-    public abstract File randomize(File toBeRandomized) throws IOException;
+    public abstract void randomize(File toBeRandomized) throws IOException;
 
+    /**
+     * Get the pack count that can be randomized, depending on the loaded game edition
+     *
+     * @return The amount of packs
+     */
+    int getPackCount() {
+        switch (gameEdition) {
+            case Wc2008:
+                return 39;
+
+            case Wc2009:
+                return 37;
+
+            case Wc2010:
+                return 49;
+
+            case Wc2011:
+                return 59;
+        }
+
+        return 0;
+    }
 }

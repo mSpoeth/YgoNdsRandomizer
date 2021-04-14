@@ -15,14 +15,15 @@ public class StructureDeckRandomizer extends Randomizer{
      * Instantiates a new Structure deck randomizer.
      *
      * @param settings the settings
+     * @param gameEdition the edition enum of the game that will be randomized;
      */
-    public StructureDeckRandomizer(YgoRandomizerSettings settings) {
-        super(settings);
+    public StructureDeckRandomizer(YgoRandomizerSettings settings, GameEdition gameEdition) {
+        super(settings, gameEdition);
     }
 
     @SuppressWarnings("SwitchStatementWithTooFewBranches")
     @Override
-    public File randomize(File toBeRandomized) throws IOException {
+    public void randomize(File toBeRandomized) throws IOException {
 
         PacWrapper pacWrapper = new PacWrapper(toBeRandomized);
 
@@ -45,8 +46,6 @@ public class StructureDeckRandomizer extends Randomizer{
         }
 
         pacWrapper.repack();
-
-        return toBeRandomized;
     }
 
     private void swapAllCards(byte[][] toBeRandomized) {
