@@ -51,7 +51,7 @@ public class YgoRomScrambler {
             System.out.print("\nRe-wrapping the rom back up.");
             finishedRom = romUnwrapper.wrapRom(extractedDataFolder);
             finishedRandomizing = true;
-            System.out.print("Done.\n\n");
+            System.out.print(" Done.\n");
 
         } catch (IOException | InterruptedException e) {
             System.out.println("Something went wrong! Maybe one of the roms you were trying " +
