@@ -18,18 +18,19 @@ import java.io.IOException;
  */
 public class Main extends Application {
 
-    private boolean isCommandLineOnly = false;
+    boolean isCommandLineOnly = false;
 
     private Stage primaryStage;
-    private final ExtensionFilter ndsFilter = new ExtensionFilter("NDS Roms (*.nds)", "*.nds");
+    private final ExtensionFilter ndsFilter = new ExtensionFilter("NDS Roms (*.nds)",
+            "*.nds");
     private final ExtensionFilter jsonFilter = new ExtensionFilter("Settings Files (*.yrconf)",
             "*.yrconf");
 
     private File lastChosenDirectory = null;
 
-    private File rom = null;
-    private YgoRandomizerSettings settings = new YgoRandomizerSettings();
-    private File outputFile = null;
+    File rom = null;
+    YgoRandomizerSettings settings = new YgoRandomizerSettings();
+    File outputFile = null;
 
     /**
      * The entry point of application.
@@ -38,10 +39,10 @@ public class Main extends Application {
      */
     public static void main(String[] args) {
         if (args.length == 0) {
-            printHelp();
+            CommandLineHandler.printHelp();
             launch();
         } else {
-            handleArguments(args);
+            CommandLineHandler.handleArguments(args);
         }
     }
 
@@ -161,71 +162,5 @@ public class Main extends Application {
         return settings;
     }
 
-    private static void handleArguments(String[] args) {
-        String romPath = null;
-        String outputPath = null;
-        String settingsPath = null;
 
-        for (int i = 0; i < args.length; ++i) {
-            switch (args[i]) {
-                case "-h":
-                    printHelp();
-                    break;
-                case "-r":
-                    romPath = args[++i];
-
-                    break;
-                case "-o":
-                    outputPath = args[++i];
-
-                    break;
-                case "-s":
-                    settingsPath = args[++i];
-                    break;
-            }
-        }
-
-        if (romPath == null) {
-            System.out.println("Path to rom is not optional.");
-            return;
-        }
-
-        File rom = new File("./" + romPath);
-        File settings = new File("./" + settingsPath);
-
-        File output;
-        if (outputPath != null) {
-            output = new File("./" + outputPath);
-        } else {
-            output = new File("./" + "output.nds");
-        }
-
-        Main mainInstance = new Main();
-        mainInstance.isCommandLineOnly = true;
-
-        try {
-            mainInstance.rom = rom;
-            mainInstance.outputFile = output;
-
-            if (settingsPath != null) {
-                mainInstance.settings = YgoRandomizerSettings.loadFromFile(settings);
-            }
-
-            mainInstance.randomizeRom();
-
-        } catch (IOException e) {
-            System.out.println("Couldn't load settings from " + settings.getAbsolutePath() + ".");
-        }
-    }
-
-    private static void printHelp() {
-        System.out.println("Commands:");
-        System.out.println("-h \t| Show help. Like this right here.");
-
-        System.out.println("\n- - -");
-        System.out.println("-r <Path to rom>\t| Set the path to the rom.");
-        System.out.println("-o <Filename>\t| Optional. Set the name the output will have. " +
-                "Warning: Will override any file with the given name!");
-        System.out.println("-s <Path to settings>\t| Optional. Load prior settings.");
-    }
 }
