@@ -16,14 +16,18 @@ import java.util.List;
 
 public class YgoRomScrambler {
 
+    private RomUnwrapper romUnwrapper;
+
     private boolean finishedRandomizing = false;
     private File extractedDataFolder = null;
     private File finishedRom = null;
 
-    public void randomizeRom(File rom, YgoRandomizerSettings settings) {
+    public YgoRomScrambler() {
         String ndsToolPath = "./src/main/resources/executables/ndstool";
-        RomUnwrapper romUnwrapper = new RomUnwrapper(ndsToolPath);
+        romUnwrapper = new RomUnwrapper(ndsToolPath);
+    }
 
+    public void randomizeRom(File rom, YgoRandomizerSettings settings) {
         try {
             // unwrap rom
             System.out.print("\nOpening up the .nds file. ");
