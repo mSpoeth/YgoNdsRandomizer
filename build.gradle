@@ -16,20 +16,6 @@ shadowJar {
     }
 }
 
-jar {
-    manifest {
-        attributes'Main-Class': 'ui.Main'
-    }
-
-    // You can reference any part of the dependency configurations,
-    // and you can have as many from statements as you need
-    from configurations.compile
-    // I just copied them into the top of the jar, so it looks like the eclipse exported
-    // runnable jar, but you could designate a lib directory, and reference that in the
-    // classpath as "lib/$it.name" instead of it.getName()
-    into ''
-}
-
 repositories {
     mavenCentral()
 }
