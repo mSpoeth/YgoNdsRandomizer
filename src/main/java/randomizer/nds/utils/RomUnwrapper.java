@@ -92,6 +92,9 @@ public class RomUnwrapper {
             while ((nextLine = reader.readLine()) != null) {
                 System.out.println(nextLine);
             }
+
+            inputStreamReader.close();
+            reader.close();
         }
     }
 }

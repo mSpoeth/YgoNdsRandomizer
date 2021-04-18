@@ -26,6 +26,8 @@ public class FileTools {
      */
     public static final Charset charset = StandardCharsets.ISO_8859_1;
 
+    private static File tempFolder = null;
+
     /**
      * Gets file bytes as string.
      *
@@ -133,17 +135,29 @@ public class FileTools {
         return new String(bytes, charset);
     }
 
+    /**
+     * Extract a resource to the default OS temp folder. Clears those files on exit.
+     *
+     * @param pathToFile The path to the directory the file is found in
+     * @param fileName The name of the file
+     * @return the now extracted file
+     */
     public static File extractResourceToTempFolder(String pathToFile, String fileName) {
         try {
-            File tempFolder = Files.createTempDirectory("ndsToolFolder").toFile();
+            if (tempFolder == null) {
+                tempFolder = Files.createTempDirectory("ndsToolFolder").toFile();
+                tempFolder.deleteOnExit();
+            }
 
             File file = new File(tempFolder.getPath() + "/" + fileName);
 
             if (!file.exists()) {
                 InputStream link = (Main.class.getResourceAsStream("/"  + pathToFile + "/" + fileName));
                 Files.copy(link, file.getAbsoluteFile().toPath());
+                link.close();
             }
 
+            file.deleteOnExit();
             return file;
         } catch (IOException e) {
             e.printStackTrace();
