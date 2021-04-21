@@ -7,7 +7,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.file.Files;
 import java.util.List;
 
 import static randomizer.nds.utils.ndsTool.NdsToolCommandCreator.createCommand;
@@ -43,7 +42,6 @@ public class RomUnwrapper {
                         " Folder could not be created for extracted files.");
             }
         }
-        Files.setAttribute(extractedRomFolder.toPath(), "dos:hidden", true);
 
         List<String> command = createCommand(ndsTool, ndsToolExtract, extractedRomFolder);
         callNdsTool(command);
@@ -65,9 +63,6 @@ public class RomUnwrapper {
 
         List<String> command = createCommand(ndsTool, ndsToolCreate, romDataFolder);
         callNdsTool(command);
-
-
-        Files.setAttribute(wrappedRom.toPath(), "dos:hidden", true);
 
         FileTools.deleteFolder(romDataFolder);
 

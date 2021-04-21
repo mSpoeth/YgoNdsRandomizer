@@ -72,7 +72,6 @@ public class YgoRomScrambler {
         }
 
         FileTools.replaceFile(finishedRom, file);
-        Files.setAttribute(file.toPath(), "dos:hidden", false);
 
         return file;
     }
