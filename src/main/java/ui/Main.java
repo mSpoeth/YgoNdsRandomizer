@@ -18,7 +18,7 @@ import java.io.IOException;
  */
 public class Main extends Application {
 
-    boolean isCommandLineOnly = false;
+    private boolean isCommandLineOnly = false;
 
     private Stage primaryStage;
     private final ExtensionFilter ndsFilter = new ExtensionFilter("NDS Roms (*.nds)",
@@ -28,9 +28,17 @@ public class Main extends Application {
 
     private File lastChosenDirectory = null;
 
-    File rom = null;
-    YgoRandomizerSettings settings = new YgoRandomizerSettings();
-    File outputFile = null;
+    private File rom = null;
+    private File outputFile = null;
+    private YgoRandomizerSettings settings = new YgoRandomizerSettings();
+
+    /**
+     * Constructor for command line handling. Whenever constructor is called, no UI
+     * is ran and all functions must work through public methods only.
+     */
+    Main(boolean isCommandLineOnly) {
+       this.isCommandLineOnly = isCommandLineOnly;
+    }
 
     /**
      * The entry point of application.
@@ -39,7 +47,7 @@ public class Main extends Application {
      */
     public static void main(String[] args) {
         if (args.length == 0) {
-            CommandLineHandler.printHelp();
+            System.out.println("Run with -h for available CLI functionality help");
             launch();
         } else {
             CommandLineHandler.handleArguments(args);
@@ -162,5 +170,23 @@ public class Main extends Application {
         return settings;
     }
 
+    /**
+     * Gets rom input and rom output.
+     *
+     * @param input The rom that will be unwrapped
+     * @param output The file the repacked rom will be saved into
+     */
+    void setRomInputAndOutput(File input, File output) {
+        rom = input;
+        outputFile = output;
+    }
 
+    /**
+     * Setter for settings.
+     *
+     * @param settings The new settings
+     */
+    public void setSettings(YgoRandomizerSettings settings) {
+        this.settings = settings;
+    }
 }

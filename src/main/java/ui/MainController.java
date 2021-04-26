@@ -91,14 +91,12 @@ public class MainController {
 
         packRandomSelection.setItems(packOptions);
         packRandomSelection.setValue(PackRandomization.NoChange);
-        packRandomSelection.setOnAction(event -> {
-            mainReference.getSettings().setPackRandomization(packRandomSelection.getValue());
-        });
+        packRandomSelection.setOnAction(event -> mainReference.getSettings()
+                .setPackRandomization(packRandomSelection.getValue()));
 
         structureRandomSelection.setItems(structureDeckOptions);
         structureRandomSelection.setValue(StructureDeckRandomization.NoChange);
-        structureRandomSelection.setOnAction(event -> {
-            mainReference.getSettings().setStructureDeckRandomization(structureRandomSelection.getValue());
-        });
+        structureRandomSelection.setOnAction(event -> mainReference.getSettings()
+                .setStructureDeckRandomization(structureRandomSelection.getValue()));
     }
 }

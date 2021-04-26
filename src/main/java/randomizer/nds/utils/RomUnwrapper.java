@@ -3,10 +3,8 @@ package randomizer.nds.utils;
 import randomizer.nds.exceptions.RomWrapperException;
 import randomizer.randomizerUtils.FileTools;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.List;
 
 import static randomizer.nds.utils.ndsTool.NdsToolCommandCreator.createCommand;

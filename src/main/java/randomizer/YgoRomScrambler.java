@@ -34,12 +34,6 @@ public class YgoRomScrambler {
             extractedDataFolder = romUnwrapper.unwrapRom(rom);
             System.out.print("Done.\n");
 
-            System.out.println("=============");
-            for (File f : extractedDataFolder.listFiles()) {
-                System.out.println(f.getName());
-            }
-            System.out.println("=============");
-
             // Find pack data .pac
             System.out.print("\nUnpacking the data. ");
             File bin2Pac = findFileInExtraction("bin2.pac");

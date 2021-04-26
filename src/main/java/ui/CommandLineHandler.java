@@ -23,24 +23,28 @@ class CommandLineHandler {
             switch (args[i]) {
                 case "-h":
                     printHelp();
-                    System.exit(0);
+                    break;
+
                 case "-r":
                     romPath = args[++i];
-
                     break;
+
                 case "-o":
                     outputPath = args[++i];
-
                     break;
+
                 case "-s":
                     settingsPath = args[++i];
                     break;
+
                 case "-p":
                     packString = args[++i];
                     break;
+
                 case "-sd":
                     structureDeckString = args[++i];
                     break;
+
                 case "-se":
                     seed = args[++i];
                     break;
@@ -70,22 +74,20 @@ class CommandLineHandler {
             System.out.println("Pack and Structure Deck must be an integer input.");
         }
 
-        Main mainInstance = new Main();
-        mainInstance.isCommandLineOnly = true;
+        Main mainInstance = new Main(true);
 
         try {
-            mainInstance.rom = rom;
-            mainInstance.outputFile = output;
+            mainInstance.setRomInputAndOutput(rom, output);
 
             if (settingsPath != null) {
-                mainInstance.settings = YgoRandomizerSettings.loadFromFile(settings);
+                mainInstance.setSettings(YgoRandomizerSettings.loadFromFile(settings));
             }
 
             if (!packString.isEmpty()) {
                 if (pack < 0 || pack > YgoRandomizerSettings.PackRandomization.values().length) {
                     System.out.println("Pack needs to be within [0, 2]");
                 } else {
-                    mainInstance.settings.setPackRandomization(pack);
+                    mainInstance.getSettings().setPackRandomization(pack);
                 }
             }
 
@@ -93,11 +95,11 @@ class CommandLineHandler {
                 if (structure < 0 || structure > YgoRandomizerSettings.PackRandomization.values().length) {
                     System.out.println("Structure Deck needs to be within [0, 1]");
                 } else {
-                    mainInstance.settings.setStructureDeckRandomization(structure);
+                    mainInstance.getSettings().setStructureDeckRandomization(structure);
                 }
             }
 
-            if (seed != null) mainInstance.settings.setSeed(seed);
+            if (seed != null) mainInstance.getSettings().setSeed(seed);
 
             mainInstance.randomizeRom();
 
@@ -107,7 +109,7 @@ class CommandLineHandler {
         System.exit(0);
     }
 
-    static void printHelp() {
+    private static void printHelp() {
         System.out.println("Commands:");
         System.out.println("-h  | Show help. Like this right here.");
 
@@ -120,5 +122,7 @@ class CommandLineHandler {
         System.out.println("-p [0 - 2] | Optional. Set pack randomization.");
         System.out.println("-sd [0 - 1] | Optional. Set structure deck randomization.");
         System.out.println("-se <Seed> | Optional. Set seed.");
+
+        System.exit(0);
     }
 }
