@@ -30,18 +30,18 @@ public class YgoRomScrambler {
     public void randomizeRom(File rom, YgoRandomizerSettings settings) {
         try {
             // unwrap rom
-            System.out.print("\nOpening up the .nds file. ");
+            System.out.print("\nOpening up the .nds file ");
             extractedDataFolder = romUnwrapper.unwrapRom(rom);
-            System.out.print("Done.\n");
+            System.out.print(" - Done\n");
 
             // Find pack data .pac
-            System.out.print("\nUnpacking the data. ");
+            System.out.print("\nUnpacking the data ");
             File bin2Pac = findFileInExtraction("bin2.pac");
             File deckPac = findFileInExtraction("deck.pac");
-            System.out.print("Done. \n");
+            System.out.print(" - Done\n");
 
             // Load randomizer with settings and randomize
-            System.out.print("\nLoading up the randomizers. ");
+            System.out.print("\nLoading up the randomizers ");
             Randomizer.GameEdition romEdition = detectGameEdition(rom);
 
             PackRandomizer packRandomizer = new PackRandomizer(settings, romEdition);
@@ -49,13 +49,13 @@ public class YgoRomScrambler {
 
             packRandomizer.randomize(bin2Pac);
             sdRandomizer.randomize(deckPac);
-            System.out.print("Done.\n");
+            System.out.print(" - Done\n");
 
             // re-wrap rom
-            System.out.print("\nRe-wrapping the rom back up.");
+            System.out.print("\nRe-wrapping the rom back up ");
             finishedRom = romUnwrapper.wrapRom(extractedDataFolder);
             finishedRandomizing = true;
-            System.out.print(" Done.\n");
+            System.out.print(" - Done\n");
 
         } catch (IOException | InterruptedException e) {
             System.out.println("Something went wrong! Maybe one of the roms you were trying " +
