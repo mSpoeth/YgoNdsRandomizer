@@ -21,12 +21,16 @@ import java.util.stream.Stream;
  */
 public class FileTools {
 
+    public enum OperatingSystem {Windows, Mac, Linux, Undefined}
+
     /**
      * The constant 1-byte charset when translation bytes to string without loss.
      */
     public static final Charset charset = StandardCharsets.ISO_8859_1;
 
     private static File tempFolder = null;
+
+    private static OperatingSystem operatingSystem = null;
 
     /**
      * Gets file bytes as string.
@@ -136,6 +140,21 @@ public class FileTools {
     }
 
     /**
+     * Get the temporary folder created for this instance. Folder and its
+     * contents will delete themselves on exit
+     *
+     * @return the temporary folder
+     */
+    public static File getTempFolder() throws IOException {
+        if (tempFolder == null) {
+            tempFolder = Files.createTempDirectory("ndsToolFolder").toFile();
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> FileTools.deleteFolder(tempFolder)));
+        }
+
+        return tempFolder;
+    }
+
+    /**
      * Extract a resource to the default OS temp folder. Clears those files on exit.
      *
      * @param pathToFile The path to the directory the file is found in
@@ -144,10 +163,7 @@ public class FileTools {
      */
     public static File extractResourceToTempFolder(String pathToFile, String fileName) {
         try {
-            if (tempFolder == null) {
-                tempFolder = Files.createTempDirectory("ndsToolFolder").toFile();
-                tempFolder.deleteOnExit();
-            }
+            getTempFolder();
 
             File file = new File(tempFolder.getPath() + "/" + fileName);
 
@@ -157,6 +173,15 @@ public class FileTools {
                 link.close();
             }
 
+
+            if (!file.setReadable(true)) {
+                System.out.println("Couldn't make file readable!");
+            }
+
+            if (!file.setExecutable(true)) {
+                System.out.println("Couldn't make file executable!");
+            }
+
             file.deleteOnExit();
             return file;
         } catch (IOException e) {
@@ -164,5 +189,27 @@ public class FileTools {
         }
 
         return null;
+    }
+
+    /**
+     * Get the current operating system from an enum
+     *
+     * @return Operating System enum element
+     */
+    public static OperatingSystem getOperatingSystem() {
+        if (operatingSystem == null) {
+            String osName = System.getProperty("os.name").toLowerCase();
+
+            if (osName.startsWith("windows")) {
+                operatingSystem = OperatingSystem.Windows;
+            } else if (osName.contains("mac")) {
+                operatingSystem = OperatingSystem.Mac;
+            } else if (osName.contains("nix") || osName.contains("nux") || osName.contains("aix")) {
+                operatingSystem = OperatingSystem.Linux;
+            } else {
+                operatingSystem = OperatingSystem.Undefined;
+            }
+        }
+        return operatingSystem;
     }
 }

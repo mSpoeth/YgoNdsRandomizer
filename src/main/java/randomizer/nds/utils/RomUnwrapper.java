@@ -16,9 +16,20 @@ public class RomUnwrapper {
     private final File ndsTool;
 
     public RomUnwrapper(String ndsToolPath) {
-        boolean isWindows = System.getProperty("os.name").startsWith("Windows");
-        if (isWindows) {
-            ndsToolPath += ".exe";
+
+        switch (FileTools.getOperatingSystem()) {
+
+            case Windows:
+                ndsToolPath += ".exe";
+                break;
+            case Mac:
+                ndsToolPath += "Mac";
+                break;
+            case Undefined:
+                System.out.println("I couldn't find out what OS you're running. " +
+                        "I will try to use Unix-like commands");
+            case Linux:
+                break;
         }
 
         File ndsToolFile = new File(ndsToolPath);
@@ -32,9 +43,9 @@ public class RomUnwrapper {
     }
 
     public File unwrapRom(File rom) throws IOException, InterruptedException {
-        File extractedRomFolder = new File(rom.getParent() + "/.Extracted");
+        File extractedRomFolder = new File(FileTools.getTempFolder() + "/Extracted");
 
-        String ndsToolExtract = "-x \"" + rom.toPath().toRealPath() + "\"";
+        String ndsToolExtract = "-x " + rom.toPath().toRealPath();
 
         if (!extractedRomFolder.exists()) {
             if (!extractedRomFolder.mkdir()) {
@@ -50,9 +61,9 @@ public class RomUnwrapper {
     }
 
     public File wrapRom(File romDataFolder) throws IOException, InterruptedException {
-        File wrappedRom = new File(romDataFolder.getParent() + "/.wrappedRom.nds");
+        File wrappedRom = new File(FileTools.getTempFolder() + "/.wrappedRom.nds");
 
-        String ndsToolCreate = "-c \"" + wrappedRom.getPath() + "\"";
+        String ndsToolCreate = "-c " + wrappedRom.getPath();
 
         if (wrappedRom.exists()) {
             if (!wrappedRom.delete()) {
@@ -74,22 +85,14 @@ public class RomUnwrapper {
     }
 
     private void callNdsTool(List<String> command, boolean verbose) throws IOException, InterruptedException {
-        Process process = new ProcessBuilder(command).start();
+        ProcessBuilder processBuilder = new ProcessBuilder(command);
+        if (verbose) {
+            processBuilder.redirectOutput(ProcessBuilder.Redirect.INHERIT);
+            processBuilder.redirectError(ProcessBuilder.Redirect.INHERIT);
+        }
+
+        Process process = processBuilder.start();
 
         process.waitFor();
-
-        if (verbose) {
-            InputStreamReader inputStreamReader = new InputStreamReader(process.getInputStream());
-            BufferedReader reader = new BufferedReader(inputStreamReader);
-
-            String nextLine;
-
-            while ((nextLine = reader.readLine()) != null) {
-                System.out.println(nextLine);
-            }
-
-            inputStreamReader.close();
-            reader.close();
-        }
     }
 }
