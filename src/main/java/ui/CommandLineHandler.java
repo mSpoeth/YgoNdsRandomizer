@@ -25,7 +25,7 @@ class CommandLineHandler {
         Main mainInstance = new Main(true);
 
         // Handle rom input
-        File rom = new File("./" + getFlagValue(FlagsEnum.RomInput));
+        File rom = new File((String) getFlagValue(FlagsEnum.RomInput));
         if (!rom.exists()) {
             System.out.println("Rom file unavailable at: " + rom.getAbsolutePath());
             System.exit(-1);
@@ -34,7 +34,7 @@ class CommandLineHandler {
         // Handle file output
         File output;
         if (checkFlag(FlagsEnum.Output)) {
-            output = new File("./" + getFlagValue(FlagsEnum.Output));
+            output = new File("./" + getFlagValue(FlagsEnum.Output) + ".nds");
         } else {
             output = new File("./" + "output.nds");
         }
@@ -74,7 +74,7 @@ class CommandLineHandler {
                 System.out.println("Structure Deck needs to be within [0, " + structureMax + "]");
                 System.exit(-1);
             } else {
-                mainInstance.getSettings().setPackRandomization(structure);
+                mainInstance.getSettings().setStructureDeckRandomization(structure);
             }
         }
 
@@ -86,7 +86,8 @@ class CommandLineHandler {
         // Handle settings export
         if (checkFlag(FlagsEnum.SettingsExport)) {
             try {
-                File settingsExport = new File("./" + getFlagValue(FlagsEnum.SettingsExport));
+                File settingsExport = new File("./"
+                        + getFlagValue(FlagsEnum.SettingsExport) + ".yrconf");
                 if (!settingsExport.exists()) {
                     if (!settingsExport.createNewFile()) {
                         System.out.println("Couldn't create settings export.");
@@ -101,7 +102,7 @@ class CommandLineHandler {
 
         mainInstance.randomizeRom();
 
-        System.exit(0);
+        //System.exit(0);
     }
 
     private static void readArguments(String[] args) {
@@ -139,7 +140,7 @@ class CommandLineHandler {
                     break;
 
                 case "-es":
-                    setFlag(FlagsEnum.SettingsExport, true);
+                    setFlag(FlagsEnum.SettingsExport, args[++i]);
                     break;
             }
         }
