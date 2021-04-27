@@ -37,6 +37,13 @@ public class YgoRandomizerSettings {
     private int structureDeckRandomization = 0;
 
     /**
+     * Default constructor, but sets the seed to current time in ms
+     */
+    public YgoRandomizerSettings() {
+        setSeed("");
+    }
+
+    /**
      * Load settings from file.
      *
      * @param settingsFile the settings file

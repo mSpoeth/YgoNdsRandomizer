@@ -30,6 +30,7 @@ public class Main extends Application {
 
     private File rom = null;
     private File outputFile = null;
+    private File settingsExportFile = null;
     private YgoRandomizerSettings settings = new YgoRandomizerSettings();
 
     /**
@@ -125,11 +126,15 @@ public class Main extends Application {
     }
 
     /**
-     * Save settings using FileChooser.
+     * Save settings using FileChooser if not in command line mode.
      */
     void saveSettings() {
+        if (!isCommandLineOnly) {
+            settingsExportFile = showSaveDialogue(jsonFilter);
+        }
+
         try {
-            settings.saveToFile(showSaveDialogue(jsonFilter));
+            settings.saveToFile(settingsExportFile);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -139,6 +144,7 @@ public class Main extends Application {
         FileChooser fileChooser = new FileChooser();
         if (lastChosenDirectory != null) fileChooser.setInitialDirectory(lastChosenDirectory);
         fileChooser.getExtensionFilters().add(filter);
+
         File file = fileChooser.showOpenDialog(primaryStage);
 
         if (file != null) {
@@ -188,5 +194,14 @@ public class Main extends Application {
      */
     public void setSettings(YgoRandomizerSettings settings) {
         this.settings = settings;
+    }
+
+    /**
+     * Setter for the file settings will be exported to.
+     *
+     * @param settingsExportFile The export file
+     */
+    public void setSettingsExportFile(File settingsExportFile) {
+        this.settingsExportFile = settingsExportFile;
     }
 }
