@@ -34,14 +34,6 @@ public class Main extends Application {
     private YgoRandomizerSettings settings = new YgoRandomizerSettings();
 
     /**
-     * Constructor for command line handling. Whenever constructor is called, no UI
-     * is ran and all functions must work through public methods only.
-     */
-    Main(boolean isCommandLineOnly) {
-       this.isCommandLineOnly = isCommandLineOnly;
-    }
-
-    /**
      * The entry point of application.
      *
      * @param args the input arguments
@@ -203,5 +195,13 @@ public class Main extends Application {
      */
     public void setSettingsExportFile(File settingsExportFile) {
         this.settingsExportFile = settingsExportFile;
+    }
+
+    /**
+     * Setter for command line handling. For when no UI
+     * is ran and all functions must work through public methods only.
+     */
+    public void setIsCommandLineOnly(boolean isCommandLineOnly) {
+        this.isCommandLineOnly = isCommandLineOnly;
     }
 }

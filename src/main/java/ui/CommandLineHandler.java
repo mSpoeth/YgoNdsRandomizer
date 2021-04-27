@@ -22,7 +22,8 @@ class CommandLineHandler {
 
     static void handleArguments(String[] args) {
         readArguments(args);
-        Main mainInstance = new Main(true);
+        Main mainInstance = new Main();
+        mainInstance.setIsCommandLineOnly(true);
 
         // Handle rom input
         File rom = new File((String) getFlagValue(FlagsEnum.RomInput));

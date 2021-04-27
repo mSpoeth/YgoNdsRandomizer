@@ -13,6 +13,7 @@ apply plugin: 'com.github.johnrengelman.shadow'
 shadowJar {
     manifest {
         attributes'Main-Class': 'ui.Main'
+        archiveFileName = "ygoRandomizer.jar"
     }
 }
 
