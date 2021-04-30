@@ -74,9 +74,7 @@ public class PackRandomizer extends Randomizer{
                     bonusPacks.add((byte) bonusPack);
                 }
 
-                if (rarity != 0x00) {
-                    mainRarities.add((byte) rarity);
-                }
+                mainRarities.add((byte) rarity);
 
                 if (bonusRarity != 0x00) {
                     bonusRarities.add((byte) bonusRarity);
@@ -109,9 +107,7 @@ public class PackRandomizer extends Randomizer{
                 }
 
                 if (shuffleRarities) {
-                    if (rarity != 0x00) {
-                        toBeRandomized[i] = mainRarities.pop();
-                    }
+                    toBeRandomized[i] = mainRarities.pop();
 
                     if (bonusRarity != 0x00) {
                         toBeRandomized[i + 1]  = bonusRarities.pop();
