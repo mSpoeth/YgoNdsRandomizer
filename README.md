@@ -9,7 +9,7 @@ The current options of randomization allow to:
 
 ### **Packs:**
   - Each card may appear in any pack with original rarities.
-  - Each card may appear in any pack with new rarities. (Commons stay commons)
+  - Each card may appear in any pack with new rarities. (Commons stay commons in all side sets)
   - No changes.
   
 ### **Structure Decks:**
