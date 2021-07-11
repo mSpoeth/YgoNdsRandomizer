@@ -50,7 +50,7 @@ public class RandomizerTest {
 
             scrambler.randomizeRom(rom, settings);
 
-            //scrambler.writeToFile(new File("./src/test/resources/rom/randomizedRom.nds"));
+            scrambler.writeToFile(new File("./src/test/resources/rom/randomizedRom.nds"));
         } catch (IOException e) {
             e.printStackTrace();
         }

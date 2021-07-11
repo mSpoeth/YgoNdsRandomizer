@@ -21,10 +21,12 @@ public class Main extends Application {
     private boolean isCommandLineOnly = false;
 
     private Stage primaryStage;
-    private final ExtensionFilter ndsFilter = new ExtensionFilter("NDS Roms (*.nds)",
-            "*.nds");
-    private final ExtensionFilter jsonFilter = new ExtensionFilter("Settings Files (*.yrconf)",
-            "*.yrconf");
+
+    private final ExtensionFilter ndsFilter
+            = new ExtensionFilter("NDS Roms (*.nds)","*.nds");
+
+    private final ExtensionFilter jsonFilter
+            = new ExtensionFilter("Settings Files (*.yrconf)","*.yrconf");
 
     private File lastChosenDirectory = null;
 
@@ -60,8 +62,6 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root));
 
         primaryStage.sizeToScene();
-
-        primaryStage.setResizable(false);
 
         primaryStage.show();
     }

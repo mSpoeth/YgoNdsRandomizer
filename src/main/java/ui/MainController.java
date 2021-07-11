@@ -24,6 +24,12 @@ public class MainController {
     private CheckBox saveSettings;
 
     @FXML
+    private CheckBox distributeCards;
+
+    @FXML
+    private CheckBox introduceSD;
+
+    @FXML
     private Button randomizeButton;
 
     @FXML
@@ -65,6 +71,9 @@ public class MainController {
         mainReference.getSettings().setSeed(seedInput.getText());
         mainReference.getSettings().setPackRandomization(packRandomSelection.getValue());
         mainReference.getSettings().setStructureDeckRandomization(structureRandomSelection.getValue());
+
+        mainReference.getSettings().setDistributeEvenly(distributeCards.isSelected());
+        mainReference.getSettings().setReIntroduceSDCards(introduceSD.isSelected());
 
         mainReference.randomizeRom();
 

@@ -14,6 +14,8 @@ import java.nio.file.Files;
  */
 public class YgoRandomizerSettings {
 
+
+
     /**
      * The enum for all pack randomization options.
      */
@@ -23,6 +25,7 @@ public class YgoRandomizerSettings {
         RandomizeCompletely
     }
 
+
     /**
      * The enum for all structure deck randomization options.
      */
@@ -30,11 +33,13 @@ public class YgoRandomizerSettings {
         NoChange,
         Randomize
     }
-
     private String seed = "";
 
     private int packRandomization = 0;
     private int structureDeckRandomization = 0;
+
+    private boolean reIntroduceSDCards = false;
+    private boolean distributeEvenly = false;
 
     /**
      * Default constructor, but sets the seed to current time in ms
@@ -83,6 +88,8 @@ public class YgoRandomizerSettings {
             settings.setSeed(json.getString("seed"));
             settings.setPackRandomization(json.getInt("packRandomization"));
             settings.setStructureDeckRandomization(json.getInt("structureDeckRandomization"));
+            settings.setDistributeEvenly(json.getBoolean("areCardsDistributedEvenly"));
+            settings.setReIntroduceSDCards(json.getBoolean("areSDCardsInPacks"));
 
             return settings;
 
@@ -105,6 +112,8 @@ public class YgoRandomizerSettings {
             json.put("seed", seed);
             json.put("packRandomization", packRandomization);
             json.put("structureDeckRandomization", structureDeckRandomization);
+            json.put("areCardsDistributedEvenly", distributeEvenly);
+            json.put("areSDCardsInPacks", reIntroduceSDCards);
 
             return json.toString(4);
 
@@ -180,6 +189,22 @@ public class YgoRandomizerSettings {
     }
 
     /**
+     * Sets whether the pack size is averaged
+     * @param value the boolean value
+     */
+    public void setDistributeEvenly(boolean value) {
+        distributeEvenly = value;
+    }
+
+    /**
+     * Sets whether the structure deck cards can be found in regular decks
+     * @param value the boolean value
+     */
+    public void setReIntroduceSDCards(boolean value) {
+        reIntroduceSDCards = value;
+    }
+
+    /**
      * Gets pack setting.
      *
      * @return the pack setting
@@ -195,5 +220,21 @@ public class YgoRandomizerSettings {
      */
     public StructureDeckRandomization getStructureDeckSetting() {
         return StructureDeckRandomization.values()[structureDeckRandomization];
+    }
+
+    /**
+     * Get whether the SD cards are distributed evenly across all packs
+     * @return whether they are distributed evenly
+     */
+    public boolean getDistributeCardsEvenly() {
+        return distributeEvenly;
+    }
+
+    /**
+     * Get whether the SD cards can be found in regular packs
+     * @return whether they can be found
+     */
+    public boolean GetReIntroduceSDCards() {
+        return reIntroduceSDCards;
     }
 }

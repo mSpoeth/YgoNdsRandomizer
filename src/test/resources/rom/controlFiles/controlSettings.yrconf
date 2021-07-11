@@ -1,5 +1,7 @@
 {
+    "areSDCardsInPacks": true,
     "packRandomization": 1,
+    "areCardsDistributedEvenly": true,
     "seed": "testSeed",
     "structureDeckRandomization": 0
 }

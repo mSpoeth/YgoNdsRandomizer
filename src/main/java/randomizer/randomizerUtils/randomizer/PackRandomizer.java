@@ -40,24 +40,31 @@ public class PackRandomizer extends Randomizer{
     }
 
     private void executeCorrectRandomization(byte[] toBeRandomized) {
+        boolean reIntroduceSDcCards = settings.GetReIntroduceSDCards();
+        boolean distributeEvenly = settings.getDistributeCardsEvenly();
+
         switch (settings.getPackSetting()) {
             case RandomizeWithRarity: {
-                swapAllCards(toBeRandomized, false);
+                swapAllCards(toBeRandomized, false, reIntroduceSDcCards, distributeEvenly);
                 break;
             }
             case RandomizeCompletely: {
-                swapAllCards(toBeRandomized, true);
+                swapAllCards(toBeRandomized, true, reIntroduceSDcCards, distributeEvenly);
                 break;
             }
         }
     }
 
-    private void swapAllCards(byte[] toBeRandomized, boolean shuffleRarities) {
+    private void swapAllCards(byte[] toBeRandomized, boolean shuffleRarities,
+                              boolean reIntroduceCards, boolean distributeEvenly) {
+
         LinkedList<Byte> mainPacks = new LinkedList<>();
         LinkedList<Byte> bonusPacks = new LinkedList<>();
 
         LinkedList<Byte> mainRarities = new LinkedList<>();
         LinkedList<Byte> bonusRarities = new LinkedList<>();
+
+        int sdCount = 0x01;
 
         // Read all packs and rarities
         for (int i = 0; i  < toBeRandomized.length; i += 8) {
@@ -67,20 +74,33 @@ public class PackRandomizer extends Randomizer{
             int rarity = (toBeRandomized[i] & 0xFF);
             int bonusRarity = (toBeRandomized[i + 1] & 0xFF);
 
-            if (pack != 0x00 && pack <= getPackCount()) {
-                mainPacks.add((byte)pack);
+            if (pack != 0x00) {
+                if (reIntroduceCards || pack <= getPackCount()) {
+                    if (reIntroduceCards) {
+                        mainPacks.add((byte)(((sdCount++ % getPackCount()) + 1) & 0xFF));
 
-                if (bonusPack != 0x00) {
-                    bonusPacks.add((byte) bonusPack);
-                }
+                    } else {
+                        mainPacks.add((byte)pack);
+                    }
 
-                mainRarities.add((byte) rarity);
+                    if (bonusPack != 0x00) {
+                        bonusPacks.add((byte) bonusPack);
+                    }
 
-                if (bonusRarity != 0x00) {
-                    bonusRarities.add((byte) bonusRarity);
+                    mainRarities.add((byte) rarity);
+
+                    if (bonusRarity != 0x00) {
+                        bonusRarities.add((byte) bonusRarity);
+                    }
                 }
             }
         }
+
+        if (distributeEvenly) {
+            mainPacks = CreateEvenDistribution(mainPacks);
+            bonusPacks = CreateEvenDistribution(bonusPacks);
+        }
+
 
         // Shuffle packs and rarities
         Collections.shuffle(mainPacks, random);
@@ -96,21 +116,23 @@ public class PackRandomizer extends Randomizer{
             int pack = (toBeRandomized[i + 3] & 0xFF);
             int bonusPack = (toBeRandomized[i + 4] & 0xFF);
 
-            int rarity = (toBeRandomized[i] & 0xFF);
+            // int rarity = (toBeRandomized[i] & 0xFF);
             int bonusRarity = (toBeRandomized[i + 1] & 0xFF);
 
-            if (pack != 0x00 && pack <= getPackCount()) {
-                toBeRandomized[i + 3] = mainPacks.pop();
+            if (pack != 0x00) {
+                if (reIntroduceCards || pack <= getPackCount()) {
+                    toBeRandomized[i + 3] = mainPacks.pop();
 
-                if (bonusPack != 0x00) {
-                    toBeRandomized[i + 4] = bonusPacks.pop();
-                }
+                    if (bonusPack != 0x00) {
+                        toBeRandomized[i + 4] = bonusPacks.pop();
+                    }
 
-                if (shuffleRarities) {
-                    toBeRandomized[i] = mainRarities.pop();
+                    if (shuffleRarities) {
+                        toBeRandomized[i] = mainRarities.pop();
 
-                    if (bonusRarity != 0x00) {
-                        toBeRandomized[i + 1]  = bonusRarities.pop();
+                        if (bonusRarity != 0x00) {
+                            toBeRandomized[i + 1]  = bonusRarities.pop();
+                        }
                     }
                 }
             }
@@ -118,6 +140,7 @@ public class PackRandomizer extends Randomizer{
     }
 
     // Returns false if a pack has no cards of any required rarity
+
     private boolean checkPackIntegrity(byte[] randomizedBytes) {
 
         int[][] checkedPacks = new int[getPackCount()][3];
@@ -153,5 +176,49 @@ public class PackRandomizer extends Randomizer{
         }
 
         return true;
+    }
+
+    private LinkedList<Byte> CreateEvenDistribution(LinkedList<Byte> bytes) {
+        int originalLength = bytes.size();
+
+        HashMap<Byte, Integer> occurrenceMap = new HashMap<>();
+
+        for (Byte b : bytes) {
+            if (!occurrenceMap.containsKey(b)) {
+                occurrenceMap.put(b, 0);
+            }
+            occurrenceMap.put(b, occurrenceMap.get(b) + 1); // increment
+        }
+
+        int sum = 0;
+        for (Integer i : occurrenceMap.values()) {
+            sum += i;
+        }
+
+
+        int average = sum / occurrenceMap.keySet().size();
+
+        LinkedList<Byte> evenlyDistributedList = new LinkedList<>();
+
+
+        for (Byte b : occurrenceMap.keySet()) {
+            for (int i = 0; i < average; ++i) {
+                evenlyDistributedList.add(b);
+            }
+        }
+
+        assert evenlyDistributedList.size() <= originalLength;
+
+        int index = 0;
+        while (evenlyDistributedList.size() < originalLength) {
+            evenlyDistributedList.add((byte) (index & 0xFF));
+            index = (index++ % getPackCount()) + 1;
+        }
+
+        while (evenlyDistributedList.size() > originalLength) {
+            evenlyDistributedList.removeFirst();
+        }
+
+        return evenlyDistributedList;
     }
 }
