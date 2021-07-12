@@ -32,8 +32,8 @@ public class StructureDeckRandomizer extends Randomizer{
 
         byte[][] bytes = fillStructureDeckFiles(pacWrapper, fileNames);
 
-
-        switch (settings.getStructureDeckSetting()) { // Switch instead of if, in case I want other SD options
+        // Switch instead of if, in case I want other SD options
+        switch (settings.getStructureDeckSetting()) {
             case Randomize: {
                 swapAllCards(bytes);
                 break;
@@ -54,6 +54,10 @@ public class StructureDeckRandomizer extends Randomizer{
         for (int i = 0; i < toBeRandomized.length; ++i) {
 
             for (int j = 0x0A; j < toBeRandomized[i].length; j += 2) {
+                if ((toBeRandomized[i][j] & 0x30) == 0x00 && (toBeRandomized[i][j + 1] & 0xFF) == 0x00) {
+                    break;
+                }
+
                 if ((toBeRandomized[i][j] & 0xFF) != 0x00 && (toBeRandomized[i][j + 1] & 0xFF) != 0x00) {
                     cards.add(new byte[] {toBeRandomized[i][j], toBeRandomized[i][j + 1]});
                 }
@@ -64,6 +68,10 @@ public class StructureDeckRandomizer extends Randomizer{
 
         for (int i = 0; i < toBeRandomized.length; ++i) {
             for (int j = 0x0A; j < toBeRandomized[i].length;j += 2) {
+                if ((toBeRandomized[i][j] & 0x30) == 0x00 && (toBeRandomized[i][j + 1] & 0xFF) == 0x00) {
+                    break;
+                }
+
                 if ((toBeRandomized[i][j] & 0xFF) != 0x00 && (toBeRandomized[i][j + 1] & 0xFF) != 0x00) {
                     byte[] bytes = cards.pop();
                     toBeRandomized[i][j] = (byte) (bytes[0] & 0xFF);

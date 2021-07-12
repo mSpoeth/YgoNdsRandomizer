@@ -15,6 +15,7 @@ import java.nio.file.Files;
 import static java.nio.charset.StandardCharsets.*;
 import static randomizer.randomizerUtils.randomizer.YgoRandomizerSettings.PackRandomization.*;
 import static randomizer.randomizerUtils.randomizer.YgoRandomizerSettings.StructureDeckRandomization.NoChange;
+import static randomizer.randomizerUtils.randomizer.YgoRandomizerSettings.StructureDeckRandomization.Randomize;
 
 public class RandomizerTest {
 
@@ -31,7 +32,7 @@ public class RandomizerTest {
 
             Assert.assertEquals("testSeed", settings.getSeed());
             Assert.assertEquals(RandomizeWithRarity, settings.getPackSetting());
-            Assert.assertEquals(NoChange, settings.getStructureDeckSetting());
+            Assert.assertEquals(Randomize, settings.getStructureDeckSetting());
 
             String testSaveBytes = new String(Files.readAllBytes(savedSettings.toPath()), UTF_8);
 
@@ -40,7 +41,7 @@ public class RandomizerTest {
             Assert.assertNotNull(settings);
             Assert.assertEquals("testSeed", settings.getSeed());
             Assert.assertEquals(RandomizeWithRarity, settings.getPackSetting());
-            Assert.assertEquals(NoChange, settings.getStructureDeckSetting());
+            Assert.assertEquals(Randomize, settings.getStructureDeckSetting());
 
             try {
                 scrambler.writeToFile(null);

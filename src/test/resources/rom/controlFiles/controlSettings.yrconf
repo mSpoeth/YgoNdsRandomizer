@@ -3,5 +3,5 @@
     "packRandomization": 1,
     "areCardsDistributedEvenly": true,
     "seed": "testSeed",
-    "structureDeckRandomization": 0
+    "structureDeckRandomization": 1
 }
