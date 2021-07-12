@@ -16,6 +16,10 @@ The current options of randomization allow to:
   - All cards contained in structure decks will be redistributed randomly among all decks.
   - No changes.
 
+### **Additional options:**
+  - Choose whether cards only found in Structure Deck will appear in regular packs.
+  - Choose whether cards will be distributed evenly accross all sets for a consistent pack size.
+
 ### **Technical limitations:**
   Packs:
   Every card has a primary and a secondary pack it appears in. For example, Cyber Dragon is a Super Rare in
