@@ -140,7 +140,6 @@ public class PackRandomizer extends Randomizer{
     }
 
     // Returns false if a pack has no cards of any required rarity
-
     private boolean checkPackIntegrity(byte[] randomizedBytes) {
 
         int[][] checkedPacks = new int[getPackCount()][3];
@@ -159,7 +158,7 @@ public class PackRandomizer extends Randomizer{
                 }
 
                 if (bonusPack <= getPackCount() && bonusPack != pack) {
-                    if (bonusRarity != 0x00) {
+                    if (bonusRarity != 0x00 && bonusPack != 0x00) {
                         checkedPacks[bonusPack - 1][bonusRarity - 2] += 1;
                     }
                 }

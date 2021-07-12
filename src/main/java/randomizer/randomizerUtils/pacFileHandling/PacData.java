@@ -10,7 +10,7 @@ import java.util.*;
 
 import static randomizer.randomizerUtils.ByteTools.*;
 
-class PacData {
+public class PacData {
 
     private final byte[] pacBytes;
     private int fileDataBeginningAddress;
@@ -33,11 +33,11 @@ class PacData {
         fillFileStructure(fileNames, pacFiles);
     }
 
-    public List<String> getFileNames() {
+    List<String> getFileNames() {
         return new ArrayList<>(fileStructure.keySet());
     }
 
-    public byte[] getFileBytes(String fileName) {
+    byte[] getFileBytes(String fileName) {
         PacFile file = fileStructure.get(fileName);
         if (file != null) {
             return file.getData();
@@ -45,7 +45,7 @@ class PacData {
         return null;
     }
 
-    public boolean overrideFileData(String fileName, byte[] data) {
+    boolean overrideFileData(String fileName, byte[] data) {
         PacFile file = fileStructure.get(fileName);
         if (file != null) {
             file.setData(data);
@@ -54,7 +54,7 @@ class PacData {
         return false;
     }
 
-    public byte[] repackPac() {
+    byte[] repackPac() {
         int newTotalFileSize = 0;
 
         for (PacFile pacFile : fileStructure.values()) {
@@ -66,7 +66,7 @@ class PacData {
 
         byte[] newPacBytes = new byte[newTotalFileSize];
 
-        System.arraycopy(pacBytes, 0, newPacBytes, 0, fileDataBeginningAddress);
+        System.arraycopy(pacBytes, 0, newPacBytes, 0, newTotalFileSize);
 
         for (PacFile pacFile : fileStructure.values()) {
             for (int i = 0; i < pacFile.getData().length; ++i) {

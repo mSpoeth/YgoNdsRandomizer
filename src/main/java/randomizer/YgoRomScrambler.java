@@ -78,7 +78,8 @@ public class YgoRomScrambler {
 
     private File findFileInExtraction(String fileName) {
         // Greedy attempt to just guess
-        File foundFile = new File(extractedDataFolder.getPath() + "/data/Data_arc_pac/" + fileName);
+        File foundFile = new File(extractedDataFolder.getPath()
+                + "/data/Data_arc_pac/" + fileName);
 
         if (!foundFile.exists()) {
             List<File> files = FileTools.findAllFiles(fileName, extractedDataFolder);
@@ -87,8 +88,8 @@ public class YgoRomScrambler {
             } else {
                 System.out.println("Invalid rom structure for " + fileName
                         + ". Valid games are WC2008 - 2011.");
-                System.out.println("If the game is one of the supported ones and this message is shown, " +
-                        "please open up an issue on the Github page.");
+                System.out.println("If the game is one of the supported ones and this message " +
+                        "is shown, please open up an issue on the Github page.");
                 return null;
             }
         }
