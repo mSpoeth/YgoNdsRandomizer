@@ -5,6 +5,14 @@ The seed, along with the used settings, can be saved and later imported.
 
 It was created for WC2011 specifically, However, all games 2008 and up should work, due to their similar structure.
 
+### **How to use:**
+  Requires Java 8 to run.
+  
+  To start the app with the User Interface, simply execute the .jar file.
+  
+  If the app is ran through a console with any parameters,
+  no UI will open and the entire process happens on command line only.
+  To see all available parameters, run with -h.
 The current options of randomization allow to:
 
 ### **Packs:**
@@ -32,11 +40,6 @@ The current options of randomization allow to:
   The games don't have any files that dictate the contents of what's inside the Structure Deck when you buy one.
   It simply gives the player a copy of every card of the corresponding Deck Recipe. Because of this, you can always
   see what the randomized deck contains, just by looking up its Sample Recipe.
-
-### **How to use:**
-  To start the app with the User Interface, simply execute the .jar file. If the app is ran with any parameters,
-  no UI will open and the entire process happens on command line only.
-  To see all available parameters, run with -h.
 
 ### **Licensing:**
 This project is open-source and most classes can be used as tools and adapted. For example, you can use it to
